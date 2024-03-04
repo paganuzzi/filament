@@ -4,8 +4,8 @@ namespace App\Services;
 
 class HolaService
 {
-    public function saludar(): void
+    public function saludar(): string
     {
-        dd('Hola');
+        return 'Hola';
     }
 }

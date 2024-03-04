@@ -3,12 +3,17 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers\FacturaRelationManager;
+use App\Livewire\SaludaComponent;
 use App\Models\User;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
@@ -19,12 +24,17 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
+    protected static ?string $navigationGroup = 'Usuarios';
+
+    protected static ?string $navigationLabel = 'Lista de Usuarios';
+
     protected static ?string $navigationIcon = 'heroicon-c-user-group';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                // Livewire::make(SaludaComponent::class),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')
@@ -62,7 +72,8 @@ class UserResource extends Resource
             ->deferFilters()
             ->persistFiltersInSession()
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -76,7 +87,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            FacturaRelationManager::class,
         ];
     }
 
